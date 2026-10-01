@@ -1,4 +1,3 @@
-# Prácticas de Acceso a Datos - Manejo de Ficheros
+# Prácticas de Acceso a Datos
 
-Repositorio destinado a la entrega y seguimiento de las actividades prácticas del módulo **Acceso a Datos** 
-
+Repositorio destinado a la entrega, organización y seguimiento de las actividades prácticas del módulo **Acceso a Datos**.
