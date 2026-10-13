@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -44,12 +42,12 @@ public class Ejercicio5Ficheros {
         // Una vez comprobado y creado el archivo pasamos a leerlo
         try(BufferedReader br = new BufferedReader(new FileReader(archivo))){
             String linea;
-            Integer numLinea = 0;
+            int numLinea = 0;
             
             while(((linea = br.readLine()) != null)){
                 numLinea ++;
                 if(linea.contains(frase)){
-                    System.out.println(linea + " LINEA NUMERO: " + numLinea);
+                    System.out.println(" LINEA NUMERO: " + numLinea + ": " + linea);
                 }
             }
         }catch(FileNotFoundException e) {
@@ -59,7 +57,7 @@ public class Ejercicio5Ficheros {
         }
          
         
-        
+        entrada.close();
         
     }
 }
