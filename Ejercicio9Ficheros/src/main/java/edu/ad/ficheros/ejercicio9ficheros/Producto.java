@@ -1,36 +1,36 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.ad.ficheros.ejercicio9ficheros;
 
 /**
- *
- * @author adrianm.gib
+ * Modelo de datos representativo de la entidad Producto en el catálogo.
+ * Encapsula identificador, denominación y precio con validaciones de integridad.
+ * 
+ * @author adria
  */
 public class Producto {
+
     private int id;
     private String nombre;
     private double precio;
 
     /**
-     * Construye una instancia de Producto validando sus reglas de negocio.
+     * Constructor con validaciones estrictas de reglas de negocio.
      * 
-     * @param id Identificador único entero mayor que 0.
-     * @param nombre Denominación del producto (no nula ni en blanco).
-     * @param precio Valor monetario mayor o igual que 0.0.
-     * @throws ProductoInvalidoException Si algún parámetro infringe las validaciones.
+     * @param id Identificador entero mayor a cero.
+     * @param nombre Denominación no nula ni en blanco.
+     * @param precio Valor numérico mayor o igual a 0.0.
+     * @throws ProductoInvalidoException Si algún parámetro infringe las restricciones.
      */
     public Producto(int id, String nombre, double precio) throws ProductoInvalidoException {
         if (id <= 0) {
-            throw new ProductoInvalidoException("El ID debe ser un número entero estrictamente positivo (> 0).");
+            throw new ProductoInvalidoException("El ID debe ser estrictamente mayor a 0.");
         }
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new ProductoInvalidoException("El nombre del producto no puede estar vacío.");
         }
         if (precio < 0.0) {
-            throw new ProductoInvalidoException("El precio no puede ser negativo (>= 0.0).");
+            throw new ProductoInvalidoException("El precio no puede ser negativo (debe ser >= 0.0).");
         }
+
         this.id = id;
         this.nombre = nombre.trim();
         this.precio = precio;
@@ -40,31 +40,54 @@ public class Producto {
         return id;
     }
 
+    public void setId(int id) throws ProductoInvalidoException {
+        if (id <= 0) {
+            throw new ProductoInvalidoException("El ID debe ser estrictamente mayor a 0.");
+        }
+        this.id = id;
+    }
+
     public String getNombre() {
         return nombre;
+    }
+
+    public void setNombre(String nombre) throws ProductoInvalidoException {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new ProductoInvalidoException("El nombre del producto no puede estar vacío.");
+        }
+        this.nombre = nombre.trim();
     }
 
     public double getPrecio() {
         return precio;
     }
 
+    public void setPrecio(double precio) throws ProductoInvalidoException {
+        if (precio < 0.0) {
+            throw new ProductoInvalidoException("El precio no puede ser negativo.");
+        }
+        this.precio = precio;
+    }
+
     /**
-     * Serializa los datos del producto en formato delimitado por el separador indicado.
+     * Serializa los datos del producto en formato de texto plano con un delimitador arbitrario.
      * 
-     * @param delimitador Carácter o cadena delimitadora (ej: ";" o "\t").
-     * @return Cadena formateada para persistencia.
+     * @param delimitador Separador de campos (ej. ";" para CSV o "\t" para TSV).
+     * @return Cadena formateada para persistencia secuencial.
      */
     public String toDelimitedString(String delimitador) {
         return id + delimitador + nombre + delimitador + precio;
     }
 
     /**
-     * Genera la representación en formato JSON simple sin librerías externas.
+     * Representación JSON simple sin requerir librerías externas.
      * 
-     * @return Cadena JSON que representa el objeto.
+     * @return Registro JSON estructurado en una sola línea.
      */
     public String toJson() {
-        return String.format("  {\"id\":%d,\"nombre\":\"%s\",\"precio\":%.2f}", id, nombre.replace("\"", "\\\""), precio);
+        // Escapamos comillas dobles en caso fortuito de que el nombre contenga alguna
+        return String.format("  {\"id\":%d,\"nombre\":\"%s\",\"precio\":%.2f}", 
+                id, nombre.replace("\"", "\\\""), precio);
     }
 
     @Override
