@@ -21,11 +21,11 @@ public class GestorCuentasRAF {
 
     public static final String NOMBRE_FICHERO = "cuentas.dat";
     
-    // Tamaños constantes de los campos en caracteres[cite: 51, 54]
-    public static final int LONG_FECHA = 5;       // 5 chars = 10 bytes[cite: 51]
-    public static final int LONG_CONCEPTO = 25;   // 25 chars = 50 bytes[cite: 51]
+    // Tamaños constantes de los campos en caracteres
+    public static final int LONG_FECHA = 5;       // 5 chars = 10 bytes
+    public static final int LONG_CONCEPTO = 25;   // 25 chars = 50 bytes
     
-    // Tamaño exacto del registro: 4 + 10 + 50 + 10 + 8 + 8 + 1 = 91 bytes[cite: 51, 52]
+    // Tamaño exacto del registro: 4 + 10 + 50 + 10 + 8 + 8 + 1 = 91 bytes
     public static final int TAM_REGISTRO = (Integer.BYTES) 
             + (LONG_FECHA * Character.BYTES) 
             + (LONG_CONCEPTO * Character.BYTES) 
@@ -54,25 +54,25 @@ public class GestorCuentasRAF {
             long posicion = (long) (apunte.getId() - 1) * TAM_REGISTRO;
             raf.seek(posicion);
 
-            // 1. ID (4 bytes)[cite: 51, 53]
+            // 1. ID (4 bytes)
             raf.writeInt(apunte.getId());
 
-            // 2. Fecha Operacion (10 bytes - 5 caracteres fijos)[cite: 51, 54]
+            // 2. Fecha Operacion (10 bytes - 5 caracteres fijos)
             escribirCadenaFija(raf, apunte.getFechaOperacion(), LONG_FECHA);
 
-            // 3. Concepto (50 bytes - 25 caracteres fijos)[cite: 51, 54]
+            // 3. Concepto (50 bytes - 25 caracteres fijos)
             escribirCadenaFija(raf, apunte.getConcepto(), LONG_CONCEPTO);
 
-            // 4. Fecha Valor (10 bytes - 5 caracteres fijos)[cite: 51, 54]
+            // 4. Fecha Valor (10 bytes - 5 caracteres fijos)
             escribirCadenaFija(raf, apunte.getFechaValor() == null ? "" : apunte.getFechaValor(), LONG_FECHA);
 
-            // 5. Importe (8 bytes)[cite: 51, 53]
+            // 5. Importe (8 bytes)
             raf.writeDouble(apunte.getImporte());
 
-            // 6. Saldo (8 bytes)[cite: 51, 53]
+            // 6. Saldo (8 bytes)
             raf.writeDouble(apunte.getSaldo());
 
-            // 7. Flag de borrado lógico (1 byte)[cite: 53]
+            // 7. Flag de borrado lógico (1 byte)
             raf.writeBoolean(apunte.isActivo());
         }
     }
@@ -149,7 +149,7 @@ public class GestorCuentasRAF {
                 return false;
             }
 
-            // Desplazamiento hasta el campo concepto: ID (4) + FechaOperacion (10) = 14 bytes[cite: 51, 52]
+            // Desplazamiento hasta el campo concepto: ID (4) + FechaOperacion (10) = 14 bytes
             long posConcepto = posicion + Integer.BYTES + (LONG_FECHA * Character.BYTES);
             raf.seek(posConcepto);
             escribirCadenaFija(raf, nuevoConcepto, LONG_CONCEPTO);
@@ -175,10 +175,10 @@ public class GestorCuentasRAF {
                 return false;
             }
 
-            // Desplazamiento al flag: inicio del registro + 90 bytes[cite: 51, 52]
+            // Desplazamiento al flag: inicio del registro + 90 bytes
             long posFlag = posicion + (TAM_REGISTRO - 1);
             raf.seek(posFlag);
-            raf.writeBoolean(false); // Baja lógica sin romper la estructura fija[cite: 28, 31, 53]
+            raf.writeBoolean(false); // Baja lógica sin romper la estructura fija
             return true;
         }
     }
@@ -210,8 +210,8 @@ public class GestorCuentasRAF {
      */
     private void escribirCadenaFija(RandomAccessFile raf, String texto, int longitud) throws IOException {
         StringBuffer sb = new StringBuffer(texto == null ? "" : texto);
-        sb.setLength(longitud); // Trunca o rellena con caracteres nulos '\0'[cite: 54, 55]
-        raf.writeChars(sb.toString()); // Escribe 2 bytes por carácter[cite: 51, 54, 55]
+        sb.setLength(longitud); // Trunca o rellena con caracteres nulos '\0'
+        raf.writeChars(sb.toString()); // Escribe 2 bytes por carácter
     }
 
     /**
@@ -220,7 +220,7 @@ public class GestorCuentasRAF {
     private String leerCadenaFija(RandomAccessFile raf, int longitud) throws IOException {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < longitud; i++) {
-            sb.append(raf.readChar()); // Lee 2 bytes Unicode por carácter[cite: 53, 54, 55]
+            sb.append(raf.readChar()); // Lee 2 bytes Unicode por carácter
         }
         return sb.toString().replace('\0', ' ').trim();
     }
