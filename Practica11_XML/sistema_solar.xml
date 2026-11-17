@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<sistemaSolar>
+    <planeta tamano="Mediano">
+        <nombre>Tierra</nombre>
+        <luna>Luna</luna>
+    </planeta>
+    <planeta tamano="Pequeno">
+        <nombre>Marte</nombre>
+        <luna>Fobos</luna>
+        <luna>Deimos</luna>
+    </planeta>
+    <planeta tamano="Mediano">
+        <nombre>Venus</nombre>
+    </planeta>
+</sistemaSolar>
