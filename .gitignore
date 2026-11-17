@@ -1,7 +1,27 @@
-/Ejercicio4/target/
-/Ejercicio5Ficheros/target/
-/Ejercicio6Ficheros/target/
-/Ejercicio7Ficheros/target/
-/Ejercicio8Ficheros/target/
-/Ejercicio9Ficheros/target/
-/Practica11_XML/target/
+# --- Carpetas de compilación (Maven / Java) ---
+# Ignora cualquier carpeta target/ o bin/ en cualquier subproyecto
+target/
+bin/
+build/
+out/
+
+# --- Archivos compilados y empaquetados de Java ---
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# --- Archivos de configuración de IDEs (Eclipse / IntelliJ / VS Code) ---
+.metadata/
+.settings/
+.classpath
+.project
+.idea/
+*.iml
+.vscode/
+
+# --- Archivos temporales del Sistema Operativo ---
+.DS_Store
+Thumbs.db
+desktop.ini
